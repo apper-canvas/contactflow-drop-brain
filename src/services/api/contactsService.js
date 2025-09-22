@@ -100,15 +100,9 @@ export const contactsService = {
 
   async create(contactData) {
     try {
-      const apperClient = this.getClient();
+const apperClient = this.getClient();
       
       // Transform UI field names to database fields (only Updateable fields)
-// Initialize ApperClient
-      const { ApperClient } = window.ApperSDK;
-      const apperClient = new ApperClient({
-        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
-        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-      });
 
       const params = {
         records: [{
@@ -167,15 +161,9 @@ export const contactsService = {
 
   async update(id, contactData) {
     try {
-      const apperClient = this.getClient();
+const apperClient = this.getClient();
       
       // Transform UI field names to database fields (only Updateable fields)
-// Initialize ApperClient
-      const { ApperClient } = window.ApperSDK;
-      const apperClient = new ApperClient({
-        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
-        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-      });
 
       const params = {
         records: [{
