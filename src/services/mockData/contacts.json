@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "email": "sarah.johnson@techcorp.com",
+    "phone": "(555) 123-4567",
+    "companyId": 1,
+    "title": "Senior Software Engineer",
+    "notes": "Lead developer on React projects. Very knowledgeable about frontend architecture.",
+    "createdAt": "2024-01-15T08:30:00Z",
+    "updatedAt": "2024-01-15T08:30:00Z"
+  },
+  {
+    "Id": 2,
+    "firstName": "Michael",
+    "lastName": "Chen",
+    "email": "m.chen@healthplus.org",
+    "phone": "(555) 234-5678",
+    "companyId": 2,
+    "title": "Director of Operations",
+    "notes": "Manages operational workflows and process improvements. Great contact for healthcare partnerships.",
+    "createdAt": "2024-01-16T10:15:00Z",
+    "updatedAt": "2024-01-16T10:15:00Z"
+  },
+  {
+    "Id": 3,
+    "firstName": "Emily",
+    "lastName": "Rodriguez",
+    "email": "emily.r@financefirst.com",
+    "phone": "(555) 345-6789",
+    "companyId": 3,
+    "title": "Portfolio Manager",
+    "notes": "Specializes in technology sector investments. Interested in fintech startups.",
+    "createdAt": "2024-01-17T14:20:00Z",
+    "updatedAt": "2024-01-17T14:20:00Z"
+  },
+  {
+    "Id": 4,
+    "firstName": "David",
+    "lastName": "Thompson",
+    "email": "david.thompson@manufacturer.net",
+    "phone": "(555) 456-7890",
+    "companyId": 4,
+    "title": "Plant Manager",
+    "notes": "Oversees production operations and quality control. Looking for automation solutions.",
+    "createdAt": "2024-01-18T09:45:00Z",
+    "updatedAt": "2024-01-18T09:45:00Z"
+  },
+  {
+    "Id": 5,
+    "firstName": "Jessica",
+    "lastName": "Williams",
+    "email": "j.williams@retailworld.com",
+    "phone": "(555) 567-8901",
+    "companyId": 5,
+    "title": "Marketing Director",
+    "notes": "Leads digital marketing campaigns and customer acquisition strategies.",
+    "createdAt": "2024-01-19T11:30:00Z",
+    "updatedAt": "2024-01-19T11:30:00Z"
+  },
+  {
+    "Id": 6,
+    "firstName": "Robert",
+    "lastName": "Davis",
+    "email": "r.davis@education.edu",
+    "phone": "(555) 678-9012",
+    "companyId": 6,
+    "title": "Academic Director",
+    "notes": "Coordinates curriculum development and faculty partnerships. Open to educational technology.",
+    "createdAt": "2024-01-20T16:00:00Z",
+    "updatedAt": "2024-01-20T16:00:00Z"
+  },
+  {
+    "Id": 7,
+    "firstName": "Amanda",
+    "lastName": "Miller",
+    "email": "amanda.miller@realestate.com",
+    "phone": "(555) 789-0123",
+    "companyId": 7,
+    "title": "Senior Broker",
+    "notes": "Specializes in commercial real estate transactions. Well-connected in the local market.",
+    "createdAt": "2024-01-21T13:15:00Z",
+    "updatedAt": "2024-01-21T13:15:00Z"
+  },
+  {
+    "Id": 8,
+    "firstName": "Christopher",
+    "lastName": "Brown",
+    "email": "chris.brown@consulting.biz",
+    "phone": "(555) 890-1234",
+    "companyId": 8,
+    "title": "Senior Consultant",
+    "notes": "Strategic business consultant with expertise in digital transformation initiatives.",
+    "createdAt": "2024-01-22T10:30:00Z",
+    "updatedAt": "2024-01-22T10:30:00Z"
+  },
+  {
+    "Id": 9,
+    "firstName": "Lisa",
+    "lastName": "Anderson",
+    "email": "lisa.anderson@freelance.com",
+    "phone": "(555) 901-2345",
+    "companyId": "",
+    "title": "Independent Consultant",
+    "notes": "Freelance UX designer with experience in SaaS platforms. Available for project work.",
+    "createdAt": "2024-01-23T08:45:00Z",
+    "updatedAt": "2024-01-23T08:45:00Z"
+  },
+  {
+    "Id": 10,
+    "firstName": "Mark",
+    "lastName": "Wilson",
+    "email": "mark.wilson@startup.io",
+    "phone": "(555) 012-3456",
+    "companyId": "",
+    "title": "Founder & CEO",
+    "notes": "Building an AI-powered analytics platform. Looking for partnerships and investment opportunities.",
+    "createdAt": "2024-01-24T15:20:00Z",
+    "updatedAt": "2024-01-24T15:20:00Z"
+  }
+]

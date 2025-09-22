@@ -1,0 +1,112 @@
+[
+  {
+    "Id": 1,
+    "name": "TechCorp Solutions",
+    "industry": "Technology",
+    "size": "51-200",
+    "website": "https://techcorp.com",
+    "description": "Leading software development company specializing in enterprise solutions and cloud infrastructure.",
+    "contactIds": [1],
+    "createdAt": "2024-01-10T09:00:00Z",
+    "updatedAt": "2024-01-10T09:00:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "HealthPlus Medical Group",
+    "industry": "Healthcare",
+    "size": "201-1000",
+    "website": "https://healthplus.org",
+    "description": "Comprehensive healthcare provider with multiple clinics and specialized treatment centers.",
+    "contactIds": [2],
+    "createdAt": "2024-01-11T10:30:00Z",
+    "updatedAt": "2024-01-11T10:30:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Finance First Capital",
+    "industry": "Finance",
+    "size": "11-50",
+    "website": "https://financefirst.com",
+    "description": "Investment management firm focused on technology and growth equity investments.",
+    "contactIds": [3],
+    "createdAt": "2024-01-12T11:45:00Z",
+    "updatedAt": "2024-01-12T11:45:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "Advanced Manufacturing Inc",
+    "industry": "Manufacturing",
+    "size": "1000+",
+    "website": "https://manufacturer.net",
+    "description": "Industrial manufacturing company producing precision components for aerospace and automotive industries.",
+    "contactIds": [4],
+    "createdAt": "2024-01-13T14:15:00Z",
+    "updatedAt": "2024-01-13T14:15:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Retail World",
+    "industry": "Retail",
+    "size": "201-1000",
+    "website": "https://retailworld.com",
+    "description": "Multi-channel retail company with both physical stores and e-commerce platforms.",
+    "contactIds": [5],
+    "createdAt": "2024-01-14T16:30:00Z",
+    "updatedAt": "2024-01-14T16:30:00Z"
+  },
+  {
+    "Id": 6,
+    "name": "Metropolitan Education Institute",
+    "industry": "Education",
+    "size": "51-200",
+    "website": "https://education.edu",
+    "description": "Private educational institution offering continuing education and professional development programs.",
+    "contactIds": [6],
+    "createdAt": "2024-01-15T12:00:00Z",
+    "updatedAt": "2024-01-15T12:00:00Z"
+  },
+  {
+    "Id": 7,
+    "name": "Prime Real Estate Group",
+    "industry": "Real Estate",
+    "size": "11-50",
+    "website": "https://realestate.com",
+    "description": "Full-service real estate brokerage specializing in commercial and residential properties.",
+    "contactIds": [7],
+    "createdAt": "2024-01-16T09:20:00Z",
+    "updatedAt": "2024-01-16T09:20:00Z"
+  },
+  {
+    "Id": 8,
+    "name": "Strategic Business Consulting",
+    "industry": "Consulting",
+    "size": "1-10",
+    "website": "https://consulting.biz",
+    "description": "Boutique consulting firm helping businesses with digital transformation and process optimization.",
+    "contactIds": [8],
+    "createdAt": "2024-01-17T13:45:00Z",
+    "updatedAt": "2024-01-17T13:45:00Z"
+  },
+  {
+    "Id": 9,
+    "name": "Global Logistics Partners",
+    "industry": "Other",
+    "size": "201-1000",
+    "website": "https://globallogistics.net",
+    "description": "International freight and logistics company providing supply chain solutions worldwide.",
+    "contactIds": [],
+    "createdAt": "2024-01-18T11:10:00Z",
+    "updatedAt": "2024-01-18T11:10:00Z"
+  },
+  {
+    "Id": 10,
+    "name": "Innovation Labs",
+    "industry": "Technology",
+    "size": "1-10",
+    "website": "https://innovationlabs.co",
+    "description": "Research and development company focused on emerging technologies and product innovation.",
+    "contactIds": [],
+    "createdAt": "2024-01-19T15:30:00Z",
+    "updatedAt": "2024-01-19T15:30:00Z"
+  }
+]
