@@ -32,7 +32,7 @@ const Header = () => {
           </motion.div>
 
           {/* Navigation */}
-          <nav className="flex space-x-8">
+<nav className="flex space-x-8">
             <NavLink
               to="/contacts"
               className={({ isActive }) =>
@@ -45,6 +45,19 @@ const Header = () => {
             >
               <ApperIcon name="Users" className="w-5 h-5 mr-2" />
               Contacts
+            </NavLink>
+            <NavLink
+              to="/leads"
+              className={({ isActive }) =>
+                `flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive
+                    ? "bg-gradient-to-r from-secondary-50 to-secondary-100 text-secondary-700 shadow-sm border border-secondary-200"
+                    : "text-slate-600 hover:text-secondary-600 hover:bg-secondary-50 hover:scale-105"
+                }`
+              }
+            >
+              <ApperIcon name="TrendingUp" className="w-5 h-5 mr-2" />
+              Leads
             </NavLink>
             <NavLink
               to="/companies"
