@@ -15,7 +15,7 @@ const ContactForm = ({
 }) => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -30,14 +30,14 @@ const ContactForm = ({
     if (isOpen) {
       loadCompanies();
       if (contact) {
-        setFormData({
-          firstName: contact.firstName || "",
-          lastName: contact.lastName || "",
-          email: contact.email || "",
-          phone: contact.phone || "",
-          companyId: contact.companyId || "",
-          title: contact.title || "",
-          notes: contact.notes || ""
+setFormData({
+          firstName: contact.first_name_c || contact.firstName || "",
+          lastName: contact.last_name_c || contact.lastName || "",
+          email: contact.email_c || contact.email || "",
+          phone: contact.phone_c || contact.phone || "",
+          companyId: contact.company_id_c || contact.companyId || "",
+          title: contact.title_c || contact.title || "",
+          notes: contact.notes_c || contact.notes || ""
         });
       } else {
         setFormData({

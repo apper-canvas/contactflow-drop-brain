@@ -54,28 +54,28 @@ const CompanyCard = ({
             {/* Company Info */}
             <div className="flex-1 min-w-0">
               <h3 className="text-lg font-semibold text-slate-800 truncate mb-1">
-                {company.name}
+{company.name_c || company.name}
               </h3>
               
               <div className="flex items-center space-x-3 mb-3">
-                {company.industry && (
+{(company.industry_c || company.industry) && (
                   <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">
-                    {company.industry}
+                    {company.industry_c || company.industry}
                   </span>
                 )}
                 
-                {company.size && (
-                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getSizeColor(company.size)}`}>
-                    {company.size} employees
+{(company.size_c || company.size) && (
+                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getSizeColor(company.size_c || company.size)}`}>
+                    {company.size_c || company.size} employees
                   </span>
                 )}
               </div>
               
               <div className="space-y-1">
-                {company.website && (
+{(company.website_c || company.website) && (
                   <div className="flex items-center text-sm text-slate-600">
                     <ApperIcon name="Globe" className="w-4 h-4 mr-2 text-slate-400" />
-                    <span className="truncate">{company.website}</span>
+                    <span className="truncate">{company.website_c || company.website}</span>
                   </div>
                 )}
                 
@@ -85,9 +85,9 @@ const CompanyCard = ({
                 </div>
               </div>
               
-              {company.description && (
+{(company.description_c || company.description) && (
                 <p className="text-sm text-slate-500 mt-2 line-clamp-2">
-                  {company.description}
+                  {company.description_c || company.description}
                 </p>
               )}
             </div>
@@ -95,11 +95,11 @@ const CompanyCard = ({
           
           {/* Action Buttons */}
           <div className="flex flex-col space-y-2 ml-4">
-            {company.website && (
+{(company.website_c || company.website) && (
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => onWebsiteClick(company.website)}
+                onClick={() => onWebsiteClick(company.website_c || company.website)}
                 className="text-accent-600 hover:bg-accent-50"
               >
                 <ApperIcon name="ExternalLink" className="w-4 h-4" />

@@ -45,19 +45,18 @@ const CompaniesPage = () => {
     }
   };
 
-  const filteredCompanies = companies.filter(company => {
+const filteredCompanies = companies.filter(company => {
     const searchLower = searchTerm.toLowerCase();
     
     return (
-      company.name.toLowerCase().includes(searchLower) ||
-      company.industry?.toLowerCase().includes(searchLower) ||
-      company.description?.toLowerCase().includes(searchLower) ||
-      company.website?.toLowerCase().includes(searchLower)
+      (company.name_c || company.name || '').toLowerCase().includes(searchLower) ||
+      (company.industry_c || company.industry || '').toLowerCase().includes(searchLower) ||
+      (company.description_c || company.description || '').toLowerCase().includes(searchLower) ||
+      (company.website_c || company.website || '').toLowerCase().includes(searchLower)
     );
   });
-
-  const getContactCount = (companyId) => {
-    return contacts.filter(contact => contact.companyId === companyId).length;
+const getContactCount = (companyId) => {
+    return contacts.filter(contact => (contact.company_id_c || contact.companyId) === companyId).length;
   };
 
   const handleAddCompany = () => {
@@ -70,10 +69,11 @@ const CompaniesPage = () => {
     setIsFormOpen(true);
   };
 
-  const handleDeleteCompany = async (company) => {
+const handleDeleteCompany = async (company) => {
     const contactCount = getContactCount(company.Id);
+    const companyName = company.name_c || company.name || '';
     
-    let confirmMessage = `Are you sure you want to delete ${company.name}?`;
+    let confirmMessage = `Are you sure you want to delete ${companyName}?`;
     if (contactCount > 0) {
       confirmMessage += ` This will also remove the company association from ${contactCount} contact${contactCount !== 1 ? "s" : ""}.`;
     }
@@ -81,7 +81,7 @@ const CompaniesPage = () => {
     if (window.confirm(confirmMessage)) {
       try {
         // Remove company association from contacts
-        const companyContacts = contacts.filter(contact => contact.companyId === company.Id);
+        const companyContacts = contacts.filter(contact => (contact.company_id_c || contact.companyId) === company.Id);
         for (const contact of companyContacts) {
           await contactsService.update(contact.Id, { ...contact, companyId: "" });
         }
@@ -92,7 +92,7 @@ const CompaniesPage = () => {
         // Update state
         setCompanies(prev => prev.filter(c => c.Id !== company.Id));
         setContacts(prev => prev.map(contact => 
-          contact.companyId === company.Id 
+          (contact.company_id_c || contact.companyId) === company.Id 
             ? { ...contact, companyId: "" }
             : contact
         ));
@@ -125,13 +125,13 @@ const CompaniesPage = () => {
     window.open(url, "_blank");
   };
 
-  const exportCompanies = () => {
+const exportCompanies = () => {
     const csvData = companies.map(company => ({
-      "Company Name": company.name,
-      "Industry": company.industry || "",
-      "Size": company.size ? `${company.size} employees` : "",
-      "Website": company.website || "",
-      "Description": company.description || "",
+      "Company Name": company.name_c || company.name || "",
+      "Industry": company.industry_c || company.industry || "",
+      "Size": (company.size_c || company.size) ? `${company.size_c || company.size} employees` : "",
+      "Website": company.website_c || company.website || "",
+      "Description": company.description_c || company.description || "",
       "Contact Count": getContactCount(company.Id)
     }));
 

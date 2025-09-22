@@ -1,15 +1,17 @@
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../App";
 import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 
 const Header = () => {
+  const { logout } = useContext(AuthContext) || {};
   return (
     <header className="bg-white shadow-lg border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-{/* Logo */}
           <motion.div 
             className="flex items-center space-x-2"
             initial={{ opacity: 0, x: -20 }}
@@ -59,9 +61,9 @@ const Header = () => {
             </NavLink>
           </nav>
 
-          {/* Export Actions */}
+          {/* Actions */}
           <div className="flex items-center space-x-2">
-<motion.div
+            <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -76,6 +78,20 @@ const Header = () => {
               <button className="p-2 text-slate-400 hover:text-secondary-600 transition-colors duration-200 rounded-lg hover:bg-secondary-50">
                 <ApperIcon name="Settings" className="w-5 h-5" />
               </button>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={logout}
+                className="text-slate-600 hover:text-red-600"
+              >
+                <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
             </motion.div>
           </div>
         </div>

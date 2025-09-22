@@ -12,7 +12,7 @@ const CompanyForm = ({
   onSave 
 }) => {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: "",
     industry: "",
     size: "",
@@ -44,12 +44,12 @@ const CompanyForm = ({
   useEffect(() => {
     if (isOpen) {
       if (company) {
-        setFormData({
-          name: company.name || "",
-          industry: company.industry || "",
-          size: company.size || "",
-          website: company.website || "",
-          description: company.description || ""
+setFormData({
+          name: company.name_c || company.name || "",
+          industry: company.industry_c || company.industry || "",
+          size: company.size_c || company.size || "",
+          website: company.website_c || company.website || "",
+          description: company.description_c || company.description || ""
         });
       } else {
         setFormData({

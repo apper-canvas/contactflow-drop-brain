@@ -44,20 +44,22 @@ const ContactsPage = () => {
       setLoading(false);
     }
   };
-
-  const filteredContacts = contacts.filter(contact => {
+const filteredContacts = contacts.filter(contact => {
     const searchLower = searchTerm.toLowerCase();
-    const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
-    const company = companies.find(c => c.Id === contact.companyId);
-    const companyName = company ? company.name.toLowerCase() : "";
+    const firstName = contact.first_name_c || contact.firstName || '';
+    const lastName = contact.last_name_c || contact.lastName || '';
+    const fullName = `${firstName} ${lastName}`.toLowerCase();
+    const company = companies.find(c => c.Id === (contact.company_id_c || contact.companyId));
+    const companyName = company ? (company.name_c || company.name || '').toLowerCase() : "";
     
     return (
       fullName.includes(searchLower) ||
-      contact.email?.toLowerCase().includes(searchLower) ||
-      contact.phone?.includes(searchTerm) ||
-      contact.title?.toLowerCase().includes(searchLower) ||
+      (contact.email_c || contact.email || '').toLowerCase().includes(searchLower) ||
+      (contact.phone_c || contact.phone || '').includes(searchTerm) ||
+      (contact.title_c || contact.title || '').toLowerCase().includes(searchLower) ||
       companyName.includes(searchLower)
     );
+
   });
 
   const handleAddContact = () => {
@@ -70,8 +72,10 @@ const ContactsPage = () => {
     setIsFormOpen(true);
   };
 
-  const handleDeleteContact = async (contact) => {
-    if (window.confirm(`Are you sure you want to delete ${contact.firstName} ${contact.lastName}?`)) {
+const handleDeleteContact = async (contact) => {
+    const firstName = contact.first_name_c || contact.firstName || '';
+    const lastName = contact.last_name_c || contact.lastName || '';
+    if (window.confirm(`Are you sure you want to delete ${firstName} ${lastName}?`)) {
       try {
         await contactsService.delete(contact.Id);
         setContacts(prev => prev.filter(c => c.Id !== contact.Id));
@@ -107,16 +111,16 @@ const ContactsPage = () => {
   };
 
   const exportContacts = () => {
-    const csvData = contacts.map(contact => {
-      const company = companies.find(c => c.Id === contact.companyId);
+const csvData = contacts.map(contact => {
+      const company = companies.find(c => c.Id === (contact.company_id_c || contact.companyId));
       return {
-        "First Name": contact.firstName,
-        "Last Name": contact.lastName,
-        "Email": contact.email || "",
-        "Phone": contact.phone || "",
-        "Company": company ? company.name : "",
-        "Title": contact.title || "",
-        "Notes": contact.notes || ""
+        "First Name": contact.first_name_c || contact.firstName || "",
+        "Last Name": contact.last_name_c || contact.lastName || "",
+        "Email": contact.email_c || contact.email || "",
+        "Phone": contact.phone_c || contact.phone || "",
+        "Company": company ? (company.name_c || company.name || "") : "",
+        "Title": contact.title_c || contact.title || "",
+        "Notes": contact.notes_c || contact.notes || ""
       };
     });
 
@@ -247,7 +251,7 @@ const ContactsPage = () => {
               >
                 <ContactCard
                   contact={contact}
-                  company={companies.find(c => c.Id === contact.companyId)}
+company={companies.find(c => c.Id === (contact.company_id_c || contact.companyId))}
                   onEdit={handleEditContact}
                   onDelete={handleDeleteContact}
                   onEmailClick={handleEmailClick}
