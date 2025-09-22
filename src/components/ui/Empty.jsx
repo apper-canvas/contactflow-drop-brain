@@ -1,6 +1,7 @@
-import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
 import { motion } from "framer-motion";
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 
 const Empty = ({ 
   title = "No data found",
@@ -32,13 +33,13 @@ const Empty = ({
           {message}
         </p>
         
-        {/* Action Button */}
+{/* Action Button */}
         {onAction && (
           <Button
-            onClick={onAction}
             variant="primary"
             size="lg"
             className="shadow-lg hover:shadow-xl"
+            onClick={onAction}
           >
             <ApperIcon name="Plus" className="w-5 h-5 mr-2" />
             {actionLabel}

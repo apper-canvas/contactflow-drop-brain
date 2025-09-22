@@ -6,8 +6,8 @@ import CompaniesPage from "@/components/pages/CompaniesPage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+<BrowserRouter>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50">
         <Layout>
           <Routes>
             <Route path="/" element={<Navigate to="/contacts" replace />} />

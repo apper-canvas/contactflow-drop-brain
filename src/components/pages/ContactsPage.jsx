@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Button from "@/components/atoms/Button";
-import SearchBar from "@/components/molecules/SearchBar";
-import ContactCard from "@/components/molecules/ContactCard";
-import ContactForm from "@/components/organisms/ContactForm";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { contactsService } from "@/services/api/contactsService";
 import { companiesService } from "@/services/api/companiesService";
 import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import SearchBar from "@/components/molecules/SearchBar";
+import ContactCard from "@/components/molecules/ContactCard";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import Button from "@/components/atoms/Button";
+import ContactForm from "@/components/organisms/ContactForm";
 
 const ContactsPage = () => {
   const [contacts, setContacts] = useState([]);
@@ -151,8 +151,8 @@ const ContactsPage = () => {
         transition={{ duration: 0.5 }}
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
-        <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+<div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-secondary-600 to-secondary-800 bg-clip-text text-transparent">
             Contacts
           </h1>
           <p className="text-slate-600 mt-1">
@@ -171,8 +171,8 @@ const ContactsPage = () => {
             Export CSV
           </Button>
           
-          <Button
-            variant="primary"
+<Button
+            variant="secondary"
             onClick={handleAddContact}
             className="shadow-lg hover:shadow-xl"
           >
@@ -204,10 +204,10 @@ const ContactsPage = () => {
             </span>
           </div>
           
-          {searchTerm && (
+{searchTerm && (
             <button
+              className="text-secondary-600 hover:text-secondary-800 font-medium"
               onClick={() => setSearchTerm("")}
-              className="text-primary-600 hover:text-primary-800 font-medium"
             >
               Clear search
             </button>
@@ -224,11 +224,11 @@ const ContactsPage = () => {
             message={
               searchTerm 
                 ? "Try adjusting your search terms or add a new contact."
-                : "Start building your professional network by adding your first contact."
+                : "Start building your contact database by adding your first contact."
             }
             actionLabel="Add First Contact"
             onAction={handleAddContact}
-            icon="Users"
+            icon="UserPlus"
           />
         ) : (
           <motion.div
@@ -238,7 +238,7 @@ const ContactsPage = () => {
             transition={{ duration: 0.5 }}
             className="grid grid-cols-1 lg:grid-cols-2 gap-6"
           >
-            {filteredContacts.map((contact, index) => (
+{filteredContacts.map((contact, index) => (
               <motion.div
                 key={contact.Id}
                 initial={{ opacity: 0, y: 20 }}

@@ -1,7 +1,8 @@
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
 import { motion } from "framer-motion";
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
 
 const ContactCard = ({ 
   contact, 
@@ -14,20 +15,20 @@ const ContactCard = ({
   const initials = `${contact.firstName?.[0] || ""}${contact.lastName?.[0] || ""}`.toUpperCase();
   
   return (
-    <motion.div
+<motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       whileHover={{ scale: 1.02 }}
     >
-      <Card className="p-6 hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary-500 bg-gradient-to-r from-white to-slate-50">
-        <div className="flex items-start justify-between">
+      <Card className="p-6 hover:shadow-lg transition-all duration-300 border-l-4 border-l-secondary-500 bg-gradient-to-r from-white to-slate-50">
+        <div className="flex items-start space-x-4">
           <div className="flex items-start space-x-4 flex-1">
-            {/* Avatar */}
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-semibold shadow-lg">
-              {initials || "?"}
+            <div className="flex-shrink-0">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary-500 to-secondary-600 flex items-center justify-center text-white font-semibold shadow-lg">
+                {contact.firstName?.[0] || ""}{contact.lastName?.[0] || ""}
+              </div>
             </div>
-            
             {/* Contact Info */}
             <div className="flex-1 min-w-0">
               <h3 className="text-lg font-semibold text-slate-800 truncate">
@@ -95,8 +96,8 @@ const ContactCard = ({
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => onEdit(contact)}
-              className="text-primary-600 hover:bg-primary-50"
+onClick={() => onEdit(contact)}
+              className="text-secondary-600 hover:bg-secondary-50"
             >
               <ApperIcon name="Edit2" className="w-4 h-4" />
             </Button>
