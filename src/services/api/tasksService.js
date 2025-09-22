@@ -102,7 +102,7 @@ class TasksService {
     }
   }
 
-  async create(taskData) {
+async create(taskData) {
     try {
       await this.delay(300);
       
@@ -112,50 +112,72 @@ class TasksService {
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       });
 
-      // Only include updateable fields for create operation
-      const params = {
-        records: [{
-          Name: taskData.Name || taskData.name || "",
-          Tags: taskData.Tags || taskData.tags || "",
-          subject_c: taskData.subject_c || taskData.subject || "",
-          due_date_c: taskData.due_date_c || taskData.dueDate || null,
-          priority_c: taskData.priority_c || taskData.priority || "Medium",
-          status_c: taskData.status_c || taskData.status || "Not Started",
-          notes_c: taskData.notes_c || taskData.notes || "",
-          call_details_c: taskData.call_details_c || taskData.callDetails || "",
-          meeting_details_c: taskData.meeting_details_c || taskData.meetingDetails || "",
-          follow_up_c: taskData.follow_up_c || taskData.followUp || false,
-          company_id_c: taskData.company_id_c || taskData.companyId ? parseInt(taskData.company_id_c || taskData.companyId) : null,
-          contact_id_c: taskData.contact_id_c || taskData.contactId ? parseInt(taskData.contact_id_c || taskData.contactId) : null
-        }]
-      };
-
-      const response = await apperClient.createRecord(this.tableName, params);
-
-      if (!response.success) {
-        console.error("Error creating task:", response.message);
-        toast.error(response.message);
+      // Validate required data
+      if (!taskData.subject_c?.trim()) {
+        toast.error("Subject is required");
         return null;
       }
 
-      if (response.results) {
+      // Only include updateable fields for create operation
+      const params = {
+        records: [{
+          Name: taskData.Name || "",
+          Tags: taskData.Tags || "",
+          subject_c: taskData.subject_c || "",
+          due_date_c: taskData.due_date_c || null,
+          priority_c: taskData.priority_c || "Medium",
+          status_c: taskData.status_c || "Not Started",
+          notes_c: taskData.notes_c || "",
+          call_details_c: taskData.call_details_c || "",
+          meeting_details_c: taskData.meeting_details_c || "",
+          follow_up_c: Boolean(taskData.follow_up_c),
+          company_id_c: taskData.company_id_c ? parseInt(taskData.company_id_c) : null,
+          contact_id_c: taskData.contact_id_c ? parseInt(taskData.contact_id_c) : null
+        }]
+      };
+
+      console.log("Creating task with data:", params);
+      const response = await apperClient.createRecord(this.tableName, params);
+      console.log("Create task response:", response);
+
+      if (!response.success) {
+        console.error("Error creating task:", response.message);
+        toast.error(response.message || "Failed to create task");
+        return null;
+      }
+
+      if (response.results && response.results.length > 0) {
         const successful = response.results.filter(r => r.success);
         const failed = response.results.filter(r => !r.success);
 
         if (failed.length > 0) {
           console.error(`Failed to create ${failed.length} tasks:`, failed);
           failed.forEach(record => {
-            record.errors?.forEach(error => toast.error(`${error.fieldLabel}: ${error}`));
-            if (record.message) toast.error(record.message);
+            if (record.errors && Array.isArray(record.errors)) {
+              record.errors.forEach(error => {
+                const errorMsg = typeof error === 'object' && error.fieldLabel 
+                  ? `${error.fieldLabel}: ${error.message || error}` 
+                  : error.message || error;
+                toast.error(errorMsg);
+              });
+            }
+            if (record.message) {
+              toast.error(record.message);
+            }
           });
+          return null;
         }
 
-        return successful.length > 0 ? successful[0].data : null;
+        if (successful.length > 0 && successful[0].data) {
+          return successful[0].data;
+        }
       }
       
+      toast.error("No data returned from server");
       return null;
     } catch (error) {
-      console.error("Error creating task:", error?.response?.data?.message || error);
+      console.error("Error creating task:", error?.response?.data?.message || error.message || error);
+      toast.error("Network error occurred while creating task");
       return null;
     }
   }

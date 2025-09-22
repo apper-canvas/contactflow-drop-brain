@@ -96,25 +96,30 @@ const TaskForm = ({
     }
   };
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.subject.trim()) {
+    if (!formData.subject?.trim()) {
       newErrors.subject = "Subject is required";
     }
     
-    if (formData.dueDate && new Date(formData.dueDate) < new Date()) {
-      newErrors.dueDate = "Due date cannot be in the past";
+    if (formData.dueDate) {
+      const dueDate = new Date(formData.dueDate);
+      const now = new Date();
+      if (dueDate < now) {
+        newErrors.dueDate = "Due date cannot be in the past";
+      }
     }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validateForm()) {
+      toast.error("Please fix the form errors before submitting");
       return;
     }
     
@@ -122,18 +127,18 @@ const TaskForm = ({
     
     try {
       const taskData = {
-        Name: formData.name || formData.subject,
-        subject_c: formData.subject,
-        priority_c: formData.priority,
-        status_c: formData.status,
+        Name: formData.name?.trim() || formData.subject?.trim() || "",
+        subject_c: formData.subject?.trim() || "",
+        priority_c: formData.priority || "Medium",
+        status_c: formData.status || "Not Started",
         due_date_c: formData.dueDate ? new Date(formData.dueDate).toISOString() : null,
         company_id_c: formData.companyId ? parseInt(formData.companyId) : null,
         contact_id_c: formData.contactId ? parseInt(formData.contactId) : null,
-        Tags: formData.tags,
-        notes_c: formData.notes,
-        call_details_c: formData.callDetails,
-        meeting_details_c: formData.meetingDetails,
-        follow_up_c: formData.followUp
+        Tags: formData.tags?.trim() || "",
+        notes_c: formData.notes?.trim() || "",
+        call_details_c: formData.callDetails?.trim() || "",
+        meeting_details_c: formData.meetingDetails?.trim() || "",
+        follow_up_c: Boolean(formData.followUp)
       };
       
       const success = await onSave(taskData);
@@ -141,10 +146,12 @@ const TaskForm = ({
       if (success) {
         toast.success(task ? "Task updated successfully!" : "Task created successfully!");
         onClose();
+      } else {
+        toast.error("Failed to save task. Please try again.");
       }
     } catch (error) {
       console.error("Error saving task:", error);
-      toast.error("Failed to save task");
+      toast.error("An error occurred while saving the task");
     } finally {
       setLoading(false);
     }
@@ -276,7 +283,7 @@ const TaskForm = ({
                     ))}
                   </FormField>
                   
-                  <FormField
+<FormField
                     label="Due Date & Time"
                     type="input"
                     id="dueDate"

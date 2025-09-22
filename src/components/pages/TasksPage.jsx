@@ -69,24 +69,35 @@ const TasksPage = () => {
     }
   };
 
-  const handleSaveTask = async (taskData) => {
+const handleSaveTask = async (taskData) => {
     try {
+      console.log("HandleSaveTask called with:", taskData);
+      
       if (editingTask) {
         const updatedTask = await tasksService.update(editingTask.Id, taskData);
         if (updatedTask) {
           setTasks(prev => prev.map(t => t.Id === editingTask.Id ? updatedTask : t));
+          toast.success("Task updated successfully!");
           return true;
+        } else {
+          toast.error("Failed to update task");
+          return false;
         }
       } else {
         const newTask = await tasksService.create(taskData);
+        console.log("New task created:", newTask);
         if (newTask) {
           setTasks(prev => [newTask, ...prev]);
+          toast.success("Task created successfully!");
           return true;
+        } else {
+          toast.error("Failed to create task");
+          return false;
         }
       }
-      return false;
     } catch (error) {
       console.error("Error saving task:", error);
+      toast.error("An error occurred while saving the task");
       return false;
     }
   };
