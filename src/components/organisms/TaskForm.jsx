@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Button from "@/components/atoms/Button";
-import FormField from "@/components/molecules/FormField";
-import ApperIcon from "@/components/ApperIcon";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { companiesService } from "@/services/api/companiesService";
 import { contactsService } from "@/services/api/contactsService";
+import ApperIcon from "@/components/ApperIcon";
+import FormField from "@/components/molecules/FormField";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
 
 const TaskForm = ({ 
   task = null, 
@@ -13,9 +14,10 @@ const TaskForm = ({
   onClose, 
   onSave 
 }) => {
-  const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [generateNoteLoading, setGenerateNoteLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     subject: "",
@@ -86,7 +88,7 @@ const TaskForm = ({
     }
   };
 
-  const loadContacts = async () => {
+const loadContacts = async () => {
     try {
       const data = await contactsService.getAll();
       setContacts(data);
@@ -96,42 +98,79 @@ const TaskForm = ({
     }
   };
 
-const validateForm = () => {
+  const generateCallSummary = async () => {
+    if (!formData.callDetails || formData.callDetails.trim().length === 0) {
+      toast.warning("Please add call details first to generate a summary");
+      return;
+    }
+
+    setGenerateNoteLoading(true);
+    
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const result = await apperClient.functions.invoke(import.meta.env.VITE_GENERATE_CALL_SUMMARY, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          callDetails: formData.callDetails
+        })
+      });
+
+      if (result.success && result.summary) {
+        const currentNotes = formData.notes || "";
+        const newNotes = currentNotes 
+          ? `${currentNotes}\n\nAI Generated Summary:\n${result.summary}`
+          : `AI Generated Summary:\n${result.summary}`;
+        
+        setFormData(prev => ({ ...prev, notes: newNotes }));
+        toast.success("Call summary generated and added to notes!");
+      } else {
+        toast.error(result.error || "Failed to generate call summary");
+      }
+    } catch (error) {
+      console.error("Error generating call summary:", error);
+      toast.error("Failed to generate call summary. Please try again.");
+    } finally {
+      setGenerateNoteLoading(false);
+    }
+  };
+
+  const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.subject?.trim()) {
+    if (!formData.subject.trim()) {
       newErrors.subject = "Subject is required";
     }
     
-    if (formData.dueDate) {
-      const dueDate = new Date(formData.dueDate);
-      const now = new Date();
-      if (dueDate < now) {
-        newErrors.dueDate = "Due date cannot be in the past";
-      }
+    if (formData.dueDate && new Date(formData.dueDate) < new Date()) {
+      newErrors.dueDate = "Due date cannot be in the past";
     }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!validateForm()) {
-      toast.error("Please fix the form errors before submitting");
-      return;
-    }
+    if (!validateForm()) return;
     
     setLoading(true);
     
     try {
       const taskData = {
-        Name: formData.name?.trim() || formData.subject?.trim() || "",
-        subject_c: formData.subject?.trim() || "",
-        priority_c: formData.priority || "Medium",
-        status_c: formData.status || "Not Started",
-        due_date_c: formData.dueDate ? new Date(formData.dueDate).toISOString() : null,
+        Name: formData.name,
+        subject_c: formData.subject,
+        priority_c: formData.priority,
+        status_c: formData.status,
+        due_date_c: formData.dueDate,
         company_id_c: formData.companyId ? parseInt(formData.companyId) : null,
         contact_id_c: formData.contactId ? parseInt(formData.contactId) : null,
         Tags: formData.tags?.trim() || "",
@@ -194,19 +233,35 @@ const handleSubmit = async (e) => {
         >
           {/* Header */}
           <div className="bg-gradient-to-r from-secondary-500 to-secondary-600 px-6 py-4 text-white">
-            <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <ApperIcon name="CheckCircle" className="w-6 h-6" />
                 <h2 className="text-lg font-semibold">
                   {task ? "Edit Task" : "New Task"}
                 </h2>
               </div>
-              <button
-                onClick={onClose}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200"
-              >
-                <ApperIcon name="X" className="w-5 h-5" />
-              </button>
+              <div className="flex items-center space-x-2">
+                {formData.callDetails && formData.callDetails.trim().length > 0 && (
+                  <button
+                    onClick={generateCallSummary}
+                    disabled={generateNoteLoading}
+                    className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    title="Generate AI summary from call details"
+                  >
+                    {generateNoteLoading ? (
+                      <ApperIcon name="Loader" className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <ApperIcon name="Bot" className="w-5 h-5" />
+                    )}
+                  </button>
+                )}
+                <button
+                  onClick={onClose}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors duration-200"
+                >
+                  <ApperIcon name="X" className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -285,7 +340,7 @@ const handleSubmit = async (e) => {
                   
 <FormField
                     label="Due Date & Time"
-                    type="input"
+                    type="datetime-local"
                     id="dueDate"
                     value={formData.dueDate}
                     onChange={handleChange("dueDate")}
