@@ -13,6 +13,7 @@ import NotFound from "@/components/pages/NotFound";
 import CompaniesPage from "@/components/pages/CompaniesPage";
 import ContactsPage from "@/components/pages/ContactsPage";
 import LeadsPage from "@/components/pages/LeadsPage";
+import TasksPage from "@/components/pages/TasksPage";
 import Layout from "@/components/organisms/Layout";
 
 // Create auth context
@@ -127,10 +128,11 @@ function AppRoutes() {
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
         <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-        <Route path="/" element={<Navigate to="/contacts" replace />} />
-<Route path="/contacts" element={<Layout><ContactsPage /></Layout>} />
+<Route path="/" element={<Navigate to="/contacts" replace />} />
+        <Route path="/contacts" element={<Layout><ContactsPage /></Layout>} />
         <Route path="/leads" element={<Layout><LeadsPage /></Layout>} />
         <Route path="/companies" element={<Layout><CompaniesPage /></Layout>} />
+        <Route path="/tasks" element={<Layout><TasksPage /></Layout>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthContext.Provider>
