@@ -103,6 +103,13 @@ export const contactsService = {
       const apperClient = this.getClient();
       
       // Transform UI field names to database fields (only Updateable fields)
+// Initialize ApperClient
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
       const params = {
         records: [{
           first_name_c: contactData.firstName || '',
@@ -163,6 +170,13 @@ export const contactsService = {
       const apperClient = this.getClient();
       
       // Transform UI field names to database fields (only Updateable fields)
+// Initialize ApperClient
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
       const params = {
         records: [{
           Id: parseInt(id),
