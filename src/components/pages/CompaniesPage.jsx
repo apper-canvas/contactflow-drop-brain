@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
@@ -24,7 +25,7 @@ const CompaniesPage = () => {
   useEffect(() => {
     loadData();
   }, []);
-
+const { user } = useSelector((state) => state.user);
   const loadData = async () => {
     setLoading(true);
     setError("");

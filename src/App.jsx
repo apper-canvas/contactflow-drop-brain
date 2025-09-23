@@ -25,7 +25,14 @@ function AppRoutes() {
   const [isInitialized, setIsInitialized] = useState(false);
   
   // Get authentication status with proper error handling
-  const userState = useSelector((state) => state.user);
+const userState = useSelector((state) => state.user);
+  
+  // Make user available globally for service access
+  useEffect(() => {
+    if (window.ApperSDK && userState.user) {
+      window.ApperSDK.currentUser = userState.user;
+    }
+  }, [userState.user]);
   const isAuthenticated = userState?.isAuthenticated || false;
   
   // Initialize ApperUI once when the app loads

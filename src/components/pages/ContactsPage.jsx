@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
 import { contactsService } from "@/services/api/contactsService";
 import { companiesService } from "@/services/api/companiesService";
@@ -24,7 +25,7 @@ const ContactsPage = () => {
   useEffect(() => {
     loadData();
   }, []);
-
+const { user } = useSelector((state) => state.user);
   const loadData = async () => {
     setLoading(true);
     setError("");

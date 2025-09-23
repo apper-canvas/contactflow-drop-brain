@@ -22,6 +22,14 @@ export const companiesService = {
           {"field": {"Name": "contact_ids_c"}},
           {"field": {"Name": "created_at_c"}},
           {"field": {"Name": "updated_at_c"}}
+],
+        where: [
+          {
+            "FieldName": "CreatedBy",
+            "Operator": "EqualTo", 
+            "Values": [window.ApperSDK?.currentUser?.userId || ""],
+            "Include": true
+          }
         ]
       };
       

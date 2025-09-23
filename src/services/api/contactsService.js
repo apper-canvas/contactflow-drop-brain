@@ -22,7 +22,15 @@ export const contactsService = {
           {"field": {"Name": "title_c"}},
           {"field": {"Name": "notes_c"}},
           {"field": {"Name": "created_at_c"}},
-          {"field": {"Name": "updated_at_c"}}
+{"field": {"Name": "updated_at_c"}}
+        ],
+        where: [
+          {
+            "FieldName": "CreatedBy",
+            "Operator": "EqualTo",
+            "Values": [window.ApperSDK?.currentUser?.userId || ""],
+            "Include": true
+          }
         ]
       };
       
