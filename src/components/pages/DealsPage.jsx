@@ -31,13 +31,12 @@ const DealsPage = () => {
     } else {
       const filtered = deals.filter((deal) => {
         const searchLower = searchTerm.toLowerCase();
-        return (
-          deal.dealName?.toLowerCase().includes(searchLower) ||
-          deal.company?.toLowerCase().includes(searchLower) ||
-          deal.stage?.toLowerCase().includes(searchLower) ||
-          deal.assignedRep?.toLowerCase().includes(searchLower) ||
-          deal.priority?.toLowerCase().includes(searchLower) ||
-          deal.tags?.toLowerCase().includes(searchLower)
+return (
+          deal.Name_c?.toLowerCase().includes(searchLower) ||
+          deal.company_id_c?.Name?.toLowerCase().includes(searchLower) ||
+          deal.Status_c?.toLowerCase().includes(searchLower) ||
+          deal.Owner?.Name?.toLowerCase().includes(searchLower) ||
+          deal.Tags?.toLowerCase().includes(searchLower)
         );
       });
       setFilteredDeals(filtered);
@@ -72,7 +71,7 @@ const DealsPage = () => {
   const handleDeleteDeal = async (deal) => {
     if (window.confirm(`Are you sure you want to delete "${deal.dealName}"?`)) {
       try {
-        await dealsService.delete(deal.Id);
+await dealsService.delete(deal.Id);
         toast.success("Deal deleted successfully");
         loadData();
       } catch (error) {
@@ -90,7 +89,7 @@ const DealsPage = () => {
   const handleSaveDeal = async (dealData) => {
     try {
       if (selectedDeal) {
-        await dealsService.update(selectedDeal.Id, dealData);
+await dealsService.update(selectedDeal.Id, dealData);
         toast.success("Deal updated successfully");
       } else {
         await dealsService.create(dealData);
@@ -124,18 +123,16 @@ const DealsPage = () => {
     ];
 
     const csvData = deals.map(deal => [
-      deal.dealName || '',
-      deal.company || '',
-      deal.dealValue || 0,
-      deal.probability || 0,
-      deal.expectedCloseDate || '',
-      deal.stage || '',
-      deal.assignedRep || '',
-      deal.priority || '',
-      deal.tags || ''
+deal.Name_c || '',
+      deal.company_id_c?.Name || '',
+      deal.Value_c || 0,
+      deal.Status_c || '',
+      deal.CloseDate_c || '',
+      deal.Owner?.Name || '',
+      deal.Tags || ''
     ]);
 
-    const csvContent = [
+const csvContent = [
       csvHeaders.join(','),
       ...csvData.map(row => 
         row.map(field => 
@@ -284,7 +281,7 @@ const DealsPage = () => {
           >
             {filteredDeals.map((deal, index) => (
               <motion.div
-                key={deal.Id}
+key={deal.Id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}

@@ -1,94 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Button from "@/components/atoms/Button";
+import ApperIcon from "@/components/ApperIcon";
+import Label from "@/components/atoms/Label";
+import Textarea from "@/components/atoms/Textarea";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
-import Label from "@/components/atoms/Label";
-import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 
 const DealForm = ({ deal, isOpen, onClose, onSave }) => {
-  const [formData, setFormData] = useState({
-    dealName: '',
-    company: '',
-    dealValue: '',
-    probability: '',
-    expectedCloseDate: '',
-    stage: '',
-    assignedRep: '',
-    priority: 'Medium',
-    tags: ''
+const [formData, setFormData] = useState({
+    Name_c: '',
+    company_id_c: '',
+    Value_c: '',
+    CloseDate_c: '',
+    Status_c: 'Prospecting',
+    contact_id_c: '',
+    Tags: ''
   });
   
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const stageOptions = [
-    { value: '', label: 'Select Stage' },
-    { value: 'Discovery', label: 'Discovery' },
-    { value: 'Qualification', label: 'Qualification' },
-    { value: 'Proposal', label: 'Proposal' },
+const statusOptions = [
+    { value: '', label: 'Select Status' },
+    { value: 'Prospecting', label: 'Prospecting' },
     { value: 'Negotiation', label: 'Negotiation' },
-    { value: 'Verbal Commitment', label: 'Verbal Commitment' },
     { value: 'Closed Won', label: 'Closed Won' },
     { value: 'Closed Lost', label: 'Closed Lost' }
   ];
 
-  const priorityOptions = [
-    { value: '', label: 'Select Priority' },
-    { value: 'Low', label: 'Low' },
-    { value: 'Medium', label: 'Medium' },
-    { value: 'High', label: 'High' },
-    { value: 'Critical', label: 'Critical' }
+  // Mock company options - in production, this would come from companies service
+  const companyOptions = [
+    { value: '', label: 'Select Company' },
+    { value: '1', label: 'TechCorp Solutions' },
+    { value: '2', label: 'DataFlow Inc' },
+    { value: '3', label: 'StartupXYZ' },
+    { value: '4', label: 'GlobalTech Ltd' },
+    { value: '5', label: 'BrandBuilders Co' }
   ];
 
-  const repOptions = [
-    { value: '', label: 'Select Rep' },
-    { value: 'Sarah Johnson', label: 'Sarah Johnson' },
-    { value: 'Michael Chen', label: 'Michael Chen' },
-    { value: 'Emma Rodriguez', label: 'Emma Rodriguez' },
-    { value: 'David Kim', label: 'David Kim' },
-    { value: 'Lisa Thompson', label: 'Lisa Thompson' },
-    { value: 'Robert Wilson', label: 'Robert Wilson' },
-    { value: 'Jennifer Martinez', label: 'Jennifer Martinez' },
-    { value: 'Alex Zhang', label: 'Alex Zhang' },
-    { value: 'Chris Anderson', label: 'Chris Anderson' },
-    { value: 'Monica Singh', label: 'Monica Singh' },
-    { value: 'Kevin Park', label: 'Kevin Park' },
-    { value: 'Taylor Brooks', label: 'Taylor Brooks' },
-    { value: 'Ashley Davis', label: 'Ashley Davis' },
-    { value: 'Jordan Lee', label: 'Jordan Lee' },
-    { value: 'Riley Cohen', label: 'Riley Cohen' }
+// Mock contact options - in production, this would come from contacts service  
+  const contactOptions = [
+    { value: '', label: 'Select Contact' },
+    { value: '1', label: 'John Smith' },
+    { value: '2', label: 'Jane Doe' },
+    { value: '3', label: 'Mike Johnson' },
+    { value: '4', label: 'Sarah Wilson' },
+    { value: '5', label: 'David Brown' }
   ];
-
-  useEffect(() => {
-    if (isOpen) {
-      if (deal) {
+useEffect(() => {
+if (deal) {
         setFormData({
-          dealName: deal.dealName || '',
-          company: deal.company || '',
-          dealValue: deal.dealValue || '',
-          probability: deal.probability || '',
-          expectedCloseDate: deal.expectedCloseDate || '',
-          stage: deal.stage || '',
-          assignedRep: deal.assignedRep || '',
-          priority: deal.priority || 'Medium',
-          tags: deal.tags || ''
+          Name_c: deal.Name_c || '',
+          company_id_c: deal.company_id_c?.Id || '',
+          Value_c: deal.Value_c || '',
+          CloseDate_c: deal.CloseDate_c || '',
+          Status_c: deal.Status_c || 'Prospecting',
+          contact_id_c: deal.contact_id_c?.Id || '',
+          Tags: deal.Tags || ''
         });
       } else {
         setFormData({
-          dealName: '',
-          company: '',
-          dealValue: '',
-          probability: '',
-          expectedCloseDate: '',
-          stage: 'Discovery',
-          assignedRep: '',
-          priority: 'Medium',
-          tags: ''
+          Name_c: '',
+          company_id_c: '',
+          Value_c: '',
+          CloseDate_c: '',
+          Status_c: 'Prospecting',
+          contact_id_c: '',
+          Tags: ''
         });
       }
       setErrors({});
-    }
+}
   }, [deal, isOpen]);
 
   const handleInputChange = (field, value) => {
@@ -101,32 +84,24 @@ const DealForm = ({ deal, isOpen, onClose, onSave }) => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.dealName.trim()) {
-      newErrors.dealName = 'Deal name is required';
-    }
-    
-    if (!formData.company.trim()) {
-      newErrors.company = 'Company is required';
-    }
-    
-    if (!formData.dealValue || formData.dealValue <= 0) {
-      newErrors.dealValue = 'Deal value must be greater than 0';
-    }
-    
-    if (!formData.probability || formData.probability < 0 || formData.probability > 100) {
-      newErrors.probability = 'Probability must be between 0 and 100';
+    if (!formData.Name_c.trim()) {
+      newErrors.Name_c = 'Deal name is required';
     }
 
-    if (!formData.stage) {
-      newErrors.stage = 'Stage is required';
+    if (!formData.company_id_c) {
+      newErrors.company_id_c = 'Company is required';
     }
 
-    if (!formData.assignedRep) {
-      newErrors.assignedRep = 'Assigned rep is required';
+    if (!formData.Value_c || formData.Value_c <= 0) {
+      newErrors.Value_c = 'Deal value must be greater than 0';
     }
 
-    if (!formData.expectedCloseDate) {
-      newErrors.expectedCloseDate = 'Expected close date is required';
+    if (!formData.Status_c) {
+      newErrors.Status_c = 'Status is required';
+    }
+
+    if (!formData.CloseDate_c) {
+      newErrors.CloseDate_c = 'Expected close date is required';
     }
 
     setErrors(newErrors);
@@ -144,10 +119,19 @@ const DealForm = ({ deal, isOpen, onClose, onSave }) => {
     try {
       const submitData = {
         ...formData,
-        dealValue: parseFloat(formData.dealValue),
-        probability: parseInt(formData.probability)
+        Value_c: parseFloat(formData.Value_c)
       };
       await onSave(submitData);
+      
+      setFormData({
+        Name_c: '',
+        company_id_c: '',
+        Value_c: '',
+        CloseDate_c: '',
+        Status_c: 'Prospecting',
+        contact_id_c: '',
+        Tags: ''
+      });
     } catch (error) {
       console.error('Error saving deal:', error);
     } finally {
@@ -158,17 +142,6 @@ const DealForm = ({ deal, isOpen, onClose, onSave }) => {
   const handleClose = () => {
     if (!loading) {
       onClose();
-      setFormData({
-        dealName: '',
-        company: '',
-        dealValue: '',
-        probability: '',
-        expectedCloseDate: '',
-        stage: '',
-        assignedRep: '',
-        priority: 'Medium',
-        tags: ''
-      });
       setErrors({});
     }
   };
@@ -202,58 +175,67 @@ const DealForm = ({ deal, isOpen, onClose, onSave }) => {
             <Label htmlFor="dealName">Deal Name *</Label>
             <Input
               id="dealName"
-              value={formData.dealName}
-              onChange={(e) => handleInputChange('dealName', e.target.value)}
               placeholder="Enter deal name"
-              className={errors.dealName ? 'border-red-300' : ''}
+              value={formData.Name_c}
+              onChange={(e) => handleInputChange('Name_c', e.target.value)}
+              className={errors.Name_c ? 'border-red-300' : ''}
             />
-            {errors.dealName && <p className="text-sm text-red-600 mt-1">{errors.dealName}</p>}
+            {errors.Name_c && <p className="text-sm text-red-600 mt-1">{errors.Name_c}</p>}
           </div>
 
           {/* Company */}
           <div>
             <Label htmlFor="company">Company *</Label>
-            <Input
+            <Select
               id="company"
-              value={formData.company}
-              onChange={(e) => handleInputChange('company', e.target.value)}
-              placeholder="Enter company name"
-              className={errors.company ? 'border-red-300' : ''}
+              value={formData.company_id_c}
+              onChange={(e) => handleInputChange('company_id_c', e.target.value)}
+              options={companyOptions}
+              className={errors.company_id_c ? 'border-red-300' : ''}
             />
-            {errors.company && <p className="text-sm text-red-600 mt-1">{errors.company}</p>}
+            {errors.company_id_c && <p className="text-sm text-red-600 mt-1">{errors.company_id_c}</p>}
           </div>
 
-          {/* Deal Value and Probability */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="dealValue">Deal Value ($) *</Label>
-              <Input
-                id="dealValue"
-                type="number"
-                min="0"
-                step="1000"
-                value={formData.dealValue}
-                onChange={(e) => handleInputChange('dealValue', e.target.value)}
-                placeholder="0"
-                className={errors.dealValue ? 'border-red-300' : ''}
-              />
-              {errors.dealValue && <p className="text-sm text-red-600 mt-1">{errors.dealValue}</p>}
-            </div>
+          {/* Contact */}
+          <div>
+            <Label htmlFor="contact">Contact</Label>
+            <Select
+              id="contact"
+              value={formData.contact_id_c}
+              onChange={(e) => handleInputChange('contact_id_c', e.target.value)}
+              options={contactOptions}
+              className={errors.contact_id_c ? 'border-red-300' : ''}
+            />
+            {errors.contact_id_c && <span className="text-red-500 text-xs">{errors.contact_id_c}</span>}
+          </div>
 
-            <div>
-              <Label htmlFor="probability">Probability (%) *</Label>
-              <Input
-                id="probability"
-                type="number"
-                min="0"
-                max="100"
-                value={formData.probability}
-                onChange={(e) => handleInputChange('probability', e.target.value)}
-                placeholder="0"
-                className={errors.probability ? 'border-red-300' : ''}
-              />
-              {errors.probability && <p className="text-sm text-red-600 mt-1">{errors.probability}</p>}
-            </div>
+          {/* Deal Value */}
+          <div>
+            <Label htmlFor="dealValue">Deal Value ($) *</Label>
+            <Input
+              id="dealValue"
+              type="number"
+              min="0"
+              step="1000"
+              value={formData.Value_c}
+              onChange={(e) => handleInputChange('Value_c', e.target.value)}
+              placeholder="0"
+              className={errors.Value_c ? 'border-red-300' : ''}
+            />
+            {errors.Value_c && <p className="text-sm text-red-600 mt-1">{errors.Value_c}</p>}
+          </div>
+
+          {/* Status */}
+          <div>
+            <Label htmlFor="status">Status *</Label>
+            <Select
+              id="status"
+              value={formData.Status_c}
+              onChange={(e) => handleInputChange('Status_c', e.target.value)}
+              options={statusOptions}
+              className={errors.Status_c ? 'border-red-300' : ''}
+            />
+            {errors.Status_c && <p className="text-sm text-red-600 mt-1">{errors.Status_c}</p>}
           </div>
 
           {/* Expected Close Date */}
@@ -262,65 +244,26 @@ const DealForm = ({ deal, isOpen, onClose, onSave }) => {
             <Input
               id="expectedCloseDate"
               type="date"
-              value={formData.expectedCloseDate}
-              onChange={(e) => handleInputChange('expectedCloseDate', e.target.value)}
-              className={errors.expectedCloseDate ? 'border-red-300' : ''}
+              value={formData.CloseDate_c}
+              onChange={(e) => handleInputChange('CloseDate_c', e.target.value)}
+              className={errors.CloseDate_c ? 'border-red-300' : ''}
             />
-            {errors.expectedCloseDate && <p className="text-sm text-red-600 mt-1">{errors.expectedCloseDate}</p>}
-          </div>
-
-          {/* Stage and Priority */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="stage">Stage *</Label>
-              <Select
-                id="stage"
-                value={formData.stage}
-                onChange={(e) => handleInputChange('stage', e.target.value)}
-                options={stageOptions}
-                className={errors.stage ? 'border-red-300' : ''}
-              />
-              {errors.stage && <p className="text-sm text-red-600 mt-1">{errors.stage}</p>}
-            </div>
-
-            <div>
-              <Label htmlFor="priority">Priority *</Label>
-              <Select
-                id="priority"
-                value={formData.priority}
-                onChange={(e) => handleInputChange('priority', e.target.value)}
-                options={priorityOptions}
-                className={errors.priority ? 'border-red-300' : ''}
-              />
-              {errors.priority && <p className="text-sm text-red-600 mt-1">{errors.priority}</p>}
-            </div>
-          </div>
-
-          {/* Assigned Rep */}
-          <div>
-            <Label htmlFor="assignedRep">Assigned Rep *</Label>
-            <Select
-              id="assignedRep"
-              value={formData.assignedRep}
-              onChange={(e) => handleInputChange('assignedRep', e.target.value)}
-              options={repOptions}
-              className={errors.assignedRep ? 'border-red-300' : ''}
-            />
-            {errors.assignedRep && <p className="text-sm text-red-600 mt-1">{errors.assignedRep}</p>}
+            {errors.CloseDate_c && <p className="text-sm text-red-600 mt-1">{errors.CloseDate_c}</p>}
           </div>
 
           {/* Tags */}
           <div>
             <Label htmlFor="tags">Tags</Label>
-            <Input
+            <Textarea
               id="tags"
-              value={formData.tags}
-              onChange={(e) => handleInputChange('tags', e.target.value)}
               placeholder="Enter tags separated by commas"
-              className={errors.tags ? 'border-red-300' : ''}
+              value={formData.Tags}
+              onChange={(e) => handleInputChange('Tags', e.target.value)}
+              className={errors.Tags ? 'border-red-300' : ''}
+              rows={3}
             />
             <p className="text-sm text-slate-500 mt-1">Separate multiple tags with commas</p>
-            {errors.tags && <p className="text-sm text-red-600 mt-1">{errors.tags}</p>}
+            {errors.Tags && <span className="text-red-500 text-xs">{errors.Tags}</span>}
           </div>
 
           {/* Action Buttons */}

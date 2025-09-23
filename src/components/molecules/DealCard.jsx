@@ -75,8 +75,8 @@ const formatDate = (dateString) => {
 };
 
 const DealCard = ({ deal, onEdit, onDelete, onLogActivity }) => {
-  const displayName = deal.dealName || 'Unnamed Deal';
-  const weightedValue = (deal.dealValue || 0) * (deal.probability || 0) / 100;
+const displayName = deal.Name_c || 'Unnamed Deal';
+  const weightedValue = deal.Value_c || 0;
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
@@ -87,18 +87,18 @@ const DealCard = ({ deal, onEdit, onDelete, onLogActivity }) => {
             <h3 className="text-lg font-semibold text-slate-800 group-hover:text-secondary-700 transition-colors line-clamp-2">
               {displayName}
             </h3>
-            {deal.company && (
+{deal.company_id_c?.Name && (
               <p className="text-sm text-slate-500 mt-1 flex items-center">
                 <ApperIcon name="Building2" className="w-3 h-3 mr-1" />
-                {deal.company}
+                {deal.company_id_c.Name}
               </p>
             )}
           </div>
 
           {/* Priority Badge */}
-          {deal.priority && (
-            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(deal.priority)}`}>
-              {deal.priority}
+{deal.Tags && (
+            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-600 border-blue-200">
+              {deal.Tags}
             </span>
           )}
         </div>
@@ -108,7 +108,7 @@ const DealCard = ({ deal, onEdit, onDelete, onLogActivity }) => {
           <div>
             <p className="text-xs text-slate-500 mb-1">Deal Value</p>
             <p className="text-lg font-bold text-slate-800">
-              {formatCurrency(deal.dealValue)}
+{formatCurrency(deal.Value_c)}
             </p>
           </div>
           <div>
@@ -117,11 +117,11 @@ const DealCard = ({ deal, onEdit, onDelete, onLogActivity }) => {
               <div className="flex-1 bg-slate-200 rounded-full h-2">
                 <div 
                   className="bg-secondary-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${deal.probability || 0}%` }}
+style={{ width: "75%" }}
                 ></div>
               </div>
               <span className="text-sm font-medium text-slate-700">
-                {deal.probability || 0}%
+Progress
               </span>
             </div>
           </div>
@@ -131,22 +131,22 @@ const DealCard = ({ deal, onEdit, onDelete, onLogActivity }) => {
         <div className="mb-4 p-3 bg-secondary-50 rounded-lg border border-secondary-100">
           <p className="text-xs text-secondary-600 mb-1">Weighted Value</p>
           <p className="text-lg font-bold text-secondary-800">
-            {formatCurrency(weightedValue)}
+{formatCurrency(weightedValue)}
           </p>
         </div>
 
         {/* Stage and Close Date */}
         <div className="space-y-2 mb-4">
-          {deal.stage && (
+{deal.Status_c && (
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500">Stage</span>
-              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getStageColor(deal.stage)}`}>
+              <span className="text-xs text-slate-500">Status</span>
+              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getStageColor(deal.Status_c)}`}>
                 {deal.stage}
               </span>
             </div>
           )}
 
-          {deal.expectedCloseDate && (
+{deal.CloseDate_c && (
             <div className="flex items-center justify-between">
               <span className="text-xs text-slate-500">Close Date</span>
               <span className="text-xs font-medium text-slate-700">
@@ -155,16 +155,16 @@ const DealCard = ({ deal, onEdit, onDelete, onLogActivity }) => {
             </div>
           )}
 
-          {deal.assignedRep && (
+{deal.Owner?.Name && (
             <div className="flex items-center text-sm text-slate-600">
               <ApperIcon name="User" className="w-4 h-4 mr-2 text-slate-400" />
-              <span>{deal.assignedRep}</span>
+              <span>{deal.Owner.Name}</span>
             </div>
           )}
         </div>
 
         {/* Tags */}
-        {deal.tags && (
+{deal.Tags && (
           <div className="mb-4">
             <div className="flex flex-wrap gap-1">
               {deal.tags.split(',').filter(Boolean).map((tag, index) => (
