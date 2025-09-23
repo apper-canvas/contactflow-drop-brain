@@ -155,10 +155,10 @@ Progress
             </div>
           )}
 
-{deal.Owner?.Name && (
+{(deal.sales_rep_id_c?.Name || deal.Owner?.Name) && (
             <div className="flex items-center text-sm text-slate-600">
               <ApperIcon name="User" className="w-4 h-4 mr-2 text-slate-400" />
-              <span>{deal.Owner.Name}</span>
+              <span>{deal.sales_rep_id_c?.Name || deal.Owner.Name}</span>
             </div>
           )}
         </div>

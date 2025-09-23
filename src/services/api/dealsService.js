@@ -32,9 +32,10 @@ export const getAll = async (filters = {}) => {
         {"field": {"Name": "Name_c"}},
         {"field": {"Name": "Value_c"}},
         {"field": {"Name": "Status_c"}},
-        {"field": {"Name": "CloseDate_c"}},
+{"field": {"Name": "CloseDate_c"}},
         {"field": {"Name": "company_id_c"}},
-        {"field": {"Name": "contact_id_c"}}
+        {"field": {"Name": "contact_id_c"}},
+        {"field": {"Name": "sales_rep_id_c"}}
       ],
       orderBy: [{"fieldName": "ModifiedOn", "sorttype": "DESC"}],
       pagingInfo: {"limit": 100, "offset": 0}
@@ -83,7 +84,8 @@ export const getById = async (dealId) => {
         {"field": {"Name": "Status_c"}},
         {"field": {"Name": "CloseDate_c"}},
         {"field": {"Name": "company_id_c"}},
-        {"field": {"Name": "contact_id_c"}}
+{"field": {"Name": "contact_id_c"}},
+        {"field": {"Name": "sales_rep_id_c"}}
       ]
     };
 
@@ -117,12 +119,15 @@ export const create = async (dealData) => {
       Tags: dealData.Tags || ''
     };
 
-    // Add lookup fields if provided (as integers)
+// Add lookup fields if provided (as integers)
     if (dealData.company_id_c) {
       recordData.company_id_c = parseInt(dealData.company_id_c);
     }
     if (dealData.contact_id_c) {
       recordData.contact_id_c = parseInt(dealData.contact_id_c);
+    }
+    if (dealData.sales_rep_id_c) {
+      recordData.sales_rep_id_c = parseInt(dealData.sales_rep_id_c);
     }
 
     const params = {
@@ -174,10 +179,15 @@ export const update = async (dealId, dealData) => {
     if (dealData.Status_c !== undefined) recordData.Status_c = dealData.Status_c;
     if (dealData.CloseDate_c !== undefined) recordData.CloseDate_c = dealData.CloseDate_c;
     if (dealData.Tags !== undefined) recordData.Tags = dealData.Tags;
-    
-    // Handle lookup fields
+// Handle lookup fields
     if (dealData.company_id_c !== undefined) {
       recordData.company_id_c = dealData.company_id_c ? parseInt(dealData.company_id_c) : null;
+    }
+    if (dealData.contact_id_c !== undefined) {
+      recordData.contact_id_c = dealData.contact_id_c ? parseInt(dealData.contact_id_c) : null;
+    }
+    if (dealData.sales_rep_id_c !== undefined) {
+      recordData.sales_rep_id_c = dealData.sales_rep_id_c ? parseInt(dealData.sales_rep_id_c) : null;
     }
     if (dealData.contact_id_c !== undefined) {
       recordData.contact_id_c = dealData.contact_id_c ? parseInt(dealData.contact_id_c) : null;

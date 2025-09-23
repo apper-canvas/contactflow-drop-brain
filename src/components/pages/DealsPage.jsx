@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { dealsService } from "@/services/api/dealsService";
 import { toast } from "react-toastify";
 import ApperIcon from "@/components/ApperIcon";
 import SearchBar from "@/components/molecules/SearchBar";
@@ -10,6 +9,7 @@ import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
 import Button from "@/components/atoms/Button";
 import DealForm from "@/components/organisms/DealForm";
+import dealsService from "@/services/api/dealsService";
 
 const DealsPage = () => {
   const [deals, setDeals] = useState([]);
@@ -36,6 +36,7 @@ return (
           deal.company_id_c?.Name?.toLowerCase().includes(searchLower) ||
           deal.Status_c?.toLowerCase().includes(searchLower) ||
           deal.Owner?.Name?.toLowerCase().includes(searchLower) ||
+          deal.sales_rep_id_c?.Name?.toLowerCase().includes(searchLower) ||
           deal.Tags?.toLowerCase().includes(searchLower)
         );
       });
@@ -68,10 +69,10 @@ return (
     setIsFormOpen(true);
   };
 
-  const handleDeleteDeal = async (deal) => {
-    if (window.confirm(`Are you sure you want to delete "${deal.dealName}"?`)) {
+const handleDeleteDeal = async (deal) => {
+    if (window.confirm(`Are you sure you want to delete "${deal.Name_c}"?`)) {
       try {
-await dealsService.delete(deal.Id);
+        await dealsService.delete(deal.Id);
         toast.success("Deal deleted successfully");
         loadData();
       } catch (error) {
@@ -83,7 +84,7 @@ await dealsService.delete(deal.Id);
 
   const handleLogActivity = (deal) => {
     // Placeholder for future activity logging functionality
-    toast.info(`Activity logging for "${deal.dealName}" - Coming Soon!`);
+    toast.info(`Activity logging for "${deal.Name_c}" - Coming Soon!`);
   };
 
   const handleSaveDeal = async (dealData) => {
@@ -117,22 +118,26 @@ await dealsService.update(selectedDeal.Id, dealData);
       "Probability",
       "Expected Close Date",
       "Stage",
-      "Assigned Rep",
+"Assigned Rep",
+      "Sales Rep",
       "Priority",
       "Tags"
     ];
 
-    const csvData = deals.map(deal => [
-deal.Name_c || '',
+const csvData = deals.map(deal => [
+      deal.Name_c || '',
       deal.company_id_c?.Name || '',
       deal.Value_c || 0,
-      deal.Status_c || '',
+      deal.Probability_c || 0,
       deal.CloseDate_c || '',
+      deal.Status_c || '',
       deal.Owner?.Name || '',
+      deal.sales_rep_id_c?.Name || '',
+      deal.Priority_c || '',
       deal.Tags || ''
     ]);
 
-const csvContent = [
+    const csvContent = [
       csvHeaders.join(','),
       ...csvData.map(row => 
         row.map(field => 
@@ -156,13 +161,13 @@ const csvContent = [
     toast.success(`Exported ${deals.length} deals to CSV`);
   };
 
-  const getTotalValue = () => {
-    return filteredDeals.reduce((sum, deal) => sum + (deal.dealValue || 0), 0);
+const getTotalValue = () => {
+    return filteredDeals.reduce((sum, deal) => sum + (deal.Value_c || 0), 0);
   };
 
   const getWeightedValue = () => {
     return filteredDeals.reduce((sum, deal) => {
-      return sum + ((deal.dealValue || 0) * (deal.probability || 0) / 100);
+      return sum + ((deal.Value_c || 0) * (deal.Probability_c || 0) / 100);
     }, 0);
   };
 
@@ -219,7 +224,7 @@ const csvContent = [
         <SearchBar
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search deals by name, company, stage, or rep..."
+placeholder="Search deals by name, company, stage, owner, or sales rep..."
           className="flex-1 max-w-md"
         />
         

@@ -6,6 +6,7 @@ import Textarea from "@/components/atoms/Textarea";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
+import { salesRepsService } from "@/services/api/salesRepsService";
 
 const DealForm = ({ deal, isOpen, onClose, onSave }) => {
 const [formData, setFormData] = useState({
@@ -15,12 +16,14 @@ const [formData, setFormData] = useState({
     CloseDate_c: '',
     Status_c: 'Prospecting',
     contact_id_c: '',
+    sales_rep_id_c: '',
     Tags: ''
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const [salesReps, setSalesReps] = useState([]);
+  const [loadingSalesReps, setLoadingSalesReps] = useState(false);
 const statusOptions = [
     { value: '', label: 'Select Status' },
     { value: 'Prospecting', label: 'Prospecting' },
@@ -57,6 +60,7 @@ useEffect(() => {
         CloseDate_c: deal.CloseDate_c || '',
         Status_c: deal.Status_c || 'Prospecting',
         contact_id_c: deal.contact_id_c?.Id || '',
+        sales_rep_id_c: deal.sales_rep_id_c?.Id || '',
         Tags: deal.Tags || ''
       });
     } else {
@@ -67,11 +71,31 @@ useEffect(() => {
         CloseDate_c: '',
         Status_c: 'Prospecting',
         contact_id_c: '',
+        sales_rep_id_c: '',
         Tags: ''
       });
     }
     setErrors({});
   }, [deal, isOpen]);
+
+  // Fetch sales reps for dropdown
+  useEffect(() => {
+    if (isOpen) {
+      const fetchSalesReps = async () => {
+        setLoadingSalesReps(true);
+        try {
+          const repsData = await salesRepsService.getAll();
+          setSalesReps(repsData);
+        } catch (error) {
+          console.error('Error fetching sales reps:', error);
+          setSalesReps([]);
+        } finally {
+          setLoadingSalesReps(false);
+        }
+      };
+      fetchSalesReps();
+    }
+  }, [isOpen]);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -116,12 +140,18 @@ useEffect(() => {
 
     setLoading(true);
     try {
-      const submitData = {
+const submitData = {
         ...formData,
-        Value_c: parseFloat(formData.Value_c)
+        Value_c: parseFloat(formData.Value_c),
+        sales_rep_id_c: formData.sales_rep_id_c ? parseInt(formData.sales_rep_id_c) : null
       };
-      await onSave(submitData);
-      
+
+      if (deal) {
+        await onSave({ Id: deal.Id, ...submitData });
+      } else {
+        await onSave(submitData);
+      }
+
       setFormData({
         Name_c: '',
         company_id_c: '',
@@ -129,6 +159,7 @@ useEffect(() => {
         CloseDate_c: '',
         Status_c: 'Prospecting',
         contact_id_c: '',
+        sales_rep_id_c: '',
         Tags: ''
       });
     } catch (error) {
@@ -206,8 +237,29 @@ useEffect(() => {
               className={errors.contact_id_c ? 'border-red-300' : ''}
             />
             {errors.contact_id_c && <span className="text-red-500 text-xs">{errors.contact_id_c}</span>}
-          </div>
+</div>
 
+          <div className="mb-4">
+            <Label>Sales Representative</Label>
+            <Select
+              value={formData.sales_rep_id_c}
+              onChange={(value) => handleInputChange('sales_rep_id_c', value)}
+              className={errors.sales_rep_id_c ? 'border-red-500' : ''}
+              disabled={loadingSalesReps}
+            >
+              <option value="">
+                {loadingSalesReps ? 'Loading sales reps...' : 'Select sales representative'}
+              </option>
+              {salesReps.map((rep) => (
+                <option key={rep.Id} value={rep.Id}>
+                  {rep.Name || `${rep.first_name_c || ''} ${rep.last_name_c || ''}`.trim()}
+                </option>
+              ))}
+            </Select>
+            {errors.sales_rep_id_c && (
+              <p className="text-red-500 text-sm mt-1">{errors.sales_rep_id_c}</p>
+            )}
+          </div>
           {/* Deal Value */}
           <div>
             <Label htmlFor="dealValue">Deal Value ($) *</Label>
