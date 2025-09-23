@@ -70,8 +70,8 @@ if (deal) {
           Tags: ''
         });
       }
-      setErrors({});
-}
+setErrors({});
+    }
   }, [deal, isOpen]);
 
   const handleInputChange = (field, value) => {

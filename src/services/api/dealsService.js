@@ -250,7 +250,6 @@ export const remove = async (dealId) => {
     throw error;
   }
 };
-};
 
 // Export service object for backward compatibility
 const dealsService = {
