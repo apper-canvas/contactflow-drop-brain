@@ -49,29 +49,28 @@ const statusOptions = [
     { value: '5', label: 'David Brown' }
   ];
 useEffect(() => {
-if (deal) {
-        setFormData({
-          Name_c: deal.Name_c || '',
-          company_id_c: deal.company_id_c?.Id || '',
-          Value_c: deal.Value_c || '',
-          CloseDate_c: deal.CloseDate_c || '',
-          Status_c: deal.Status_c || 'Prospecting',
-          contact_id_c: deal.contact_id_c?.Id || '',
-          Tags: deal.Tags || ''
-        });
-      } else {
-        setFormData({
-          Name_c: '',
-          company_id_c: '',
-          Value_c: '',
-          CloseDate_c: '',
-          Status_c: 'Prospecting',
-          contact_id_c: '',
-          Tags: ''
-        });
-      }
-setErrors({});
+    if (deal) {
+      setFormData({
+        Name_c: deal.Name_c || '',
+        company_id_c: deal.company_id_c?.Id || '',
+        Value_c: deal.Value_c || '',
+        CloseDate_c: deal.CloseDate_c || '',
+        Status_c: deal.Status_c || 'Prospecting',
+        contact_id_c: deal.contact_id_c?.Id || '',
+        Tags: deal.Tags || ''
+      });
+    } else {
+      setFormData({
+        Name_c: '',
+        company_id_c: '',
+        Value_c: '',
+        CloseDate_c: '',
+        Status_c: 'Prospecting',
+        contact_id_c: '',
+        Tags: ''
+      });
     }
+    setErrors({});
   }, [deal, isOpen]);
 
   const handleInputChange = (field, value) => {
