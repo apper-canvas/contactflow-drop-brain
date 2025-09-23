@@ -64,7 +64,7 @@ useEffect(() => {
         Tags: deal.Tags || ''
       });
     } else {
-      setFormData({
+setFormData({
         Name_c: '',
         company_id_c: '',
         Value_c: '',
