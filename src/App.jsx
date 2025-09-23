@@ -15,6 +15,7 @@ import ContactsPage from "@/components/pages/ContactsPage";
 import LeadsPage from "@/components/pages/LeadsPage";
 import TasksPage from "@/components/pages/TasksPage";
 import DealsPage from "@/components/pages/DealsPage";
+import SalesRepsPage from "@/components/pages/SalesRepsPage";
 import Layout from "@/components/organisms/Layout";
 
 // Create auth context
@@ -140,8 +141,9 @@ const userState = useSelector((state) => state.user);
         <Route path="/contacts" element={<Layout><ContactsPage /></Layout>} />
         <Route path="/leads" element={<Layout><LeadsPage /></Layout>} />
 <Route path="/companies" element={<Layout><CompaniesPage /></Layout>} />
-        <Route path="/deals" element={<Layout><DealsPage /></Layout>} />
+<Route path="/deals" element={<Layout><DealsPage /></Layout>} />
         <Route path="/tasks" element={<Layout><TasksPage /></Layout>} />
+        <Route path="/sales-reps" element={<Layout><SalesRepsPage /></Layout>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthContext.Provider>
