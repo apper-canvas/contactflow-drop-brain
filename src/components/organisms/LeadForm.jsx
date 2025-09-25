@@ -5,9 +5,10 @@ import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
 import Label from "@/components/atoms/Label";
 import ApperIcon from "@/components/ApperIcon";
+import { companiesService } from "@/services/api/companiesService";
 
 const LeadForm = ({ lead, isOpen, onClose, onSave }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: '',
     tags: '',
     firstName: '',
@@ -18,6 +19,8 @@ const LeadForm = ({ lead, isOpen, onClose, onSave }) => {
     status: '',
     leadSource: ''
   });
+  const [companies, setCompanies] = useState([]);
+  const [loadingCompanies, setLoadingCompanies] = useState(false);
   
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -39,6 +42,24 @@ const LeadForm = ({ lead, isOpen, onClose, onSave }) => {
     { value: 'Advertisement', label: 'Advertisement' }
   ];
 
+// Load companies for dropdown
+  useEffect(() => {
+    const loadCompanies = async () => {
+      if (isOpen) {
+        setLoadingCompanies(true);
+        try {
+          const companiesData = await companiesService.getAll();
+          setCompanies(companiesData);
+        } catch (error) {
+          console.error('Error loading companies:', error);
+        } finally {
+          setLoadingCompanies(false);
+        }
+      }
+    };
+    loadCompanies();
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) {
       if (lead) {
@@ -48,8 +69,8 @@ const LeadForm = ({ lead, isOpen, onClose, onSave }) => {
           firstName: lead.firstName || '',
           lastName: lead.lastName || '',
           email: lead.email || '',
-          phone: lead.phone || '',
-          company: lead.company || '',
+phone: lead.phone || '',
+          company: lead.company?.Id || lead.company || '',
           status: lead.status || '',
           leadSource: lead.leadSource || ''
         });
@@ -59,7 +80,7 @@ const LeadForm = ({ lead, isOpen, onClose, onSave }) => {
           tags: '',
           firstName: '',
           lastName: '',
-          email: '',
+email: '',
           phone: '',
           company: '',
           status: 'New',
@@ -127,7 +148,7 @@ const LeadForm = ({ lead, isOpen, onClose, onSave }) => {
         tags: '',
         firstName: '',
         lastName: '',
-        email: '',
+email: '',
         phone: '',
         company: '',
         status: '',
@@ -231,15 +252,24 @@ const LeadForm = ({ lead, isOpen, onClose, onSave }) => {
           </div>
 
           {/* Company Field */}
-          <div>
+<div>
             <Label htmlFor="company">Company</Label>
-            <Input
+            <Select
               id="company"
               value={formData.company}
               onChange={(e) => handleInputChange('company', e.target.value)}
-              placeholder="Enter company name"
               className={errors.company ? 'border-red-300' : ''}
-            />
+              disabled={loadingCompanies}
+            >
+              <option value="">
+                {loadingCompanies ? 'Loading companies...' : 'Select a company'}
+              </option>
+              {companies.map((company) => (
+                <option key={company.Id} value={company.Id}>
+                  {company.name}
+                </option>
+              ))}
+            </Select>
             {errors.company && <p className="text-sm text-red-600 mt-1">{errors.company}</p>}
           </div>
 

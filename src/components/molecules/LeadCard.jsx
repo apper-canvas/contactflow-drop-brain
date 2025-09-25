@@ -49,10 +49,10 @@ const LeadCard = ({ lead, onEdit, onDelete, onEmailClick, onPhoneClick }) => {
             <h3 className="text-lg font-semibold text-slate-800 group-hover:text-secondary-700 transition-colors">
               {displayName}
             </h3>
-            {lead.company && (
+{(lead.company?.Name || lead.company) && (
               <p className="text-sm text-slate-500 mt-1 flex items-center">
                 <ApperIcon name="Building" className="w-3 h-3 mr-1" />
-                {lead.company}
+                {lead.company?.Name || lead.company}
               </p>
             )}
           </div>

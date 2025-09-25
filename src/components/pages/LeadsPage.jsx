@@ -35,8 +35,8 @@ const LeadsPage = () => {
         return (
           fullName.includes(searchLower) ||
           lead.email?.toLowerCase().includes(searchLower) ||
-          lead.phone?.includes(searchTerm) ||
-          lead.company?.toLowerCase().includes(searchLower) ||
+lead.phone?.includes(searchTerm) ||
+          (lead.company?.Name || lead.company)?.toLowerCase().includes(searchLower) ||
           lead.status?.toLowerCase().includes(searchLower) ||
           lead.leadSource?.toLowerCase().includes(searchLower)
         );
@@ -131,8 +131,8 @@ const LeadsPage = () => {
       lead.firstName || '',
       lead.lastName || '',
       lead.email || '',
-      lead.phone || '',
-      lead.company || '',
+lead.phone || '',
+      lead.company?.Name || lead.company || '',
       lead.status || '',
       lead.leadSource || ''
     ]);
