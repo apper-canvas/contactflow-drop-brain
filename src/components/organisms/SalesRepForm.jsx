@@ -11,7 +11,7 @@ import { salesRepsService } from "@/services/api/salesRepsService";
 
 const SalesRepForm = ({ salesRep, onSuccess, onClose }) => {
   const [formData, setFormData] = useState({
-    user_id_c: "",
+users_c: "",
     territory_c: "",
     region_c: "",
     target_amount_c: "",
@@ -27,7 +27,7 @@ const SalesRepForm = ({ salesRep, onSuccess, onClose }) => {
     loadAvailableUsers();
     if (salesRep) {
       setFormData({
-        user_id_c: salesRep.user_id_c || "",
+users_c: salesRep.users_c || "",
         territory_c: salesRep.territory_c || "",
         region_c: salesRep.region_c || "",
         target_amount_c: salesRep.target_amount_c || "",
@@ -59,7 +59,7 @@ const SalesRepForm = ({ salesRep, onSuccess, onClose }) => {
         ...formData,
         target_amount_c: parseFloat(formData.target_amount_c) || 0,
         achievement_percentage_c: parseFloat(formData.achievement_percentage_c) || 0,
-        user_id_c: parseInt(formData.user_id_c)
+users_c: parseInt(formData.users_c)
       };
 
       if (salesRep) {
@@ -112,11 +112,11 @@ const SalesRepForm = ({ salesRep, onSuccess, onClose }) => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="user_id_c">User *</Label>
+<Label htmlFor="users_c">User *</Label>
                 <Select
-                  id="user_id_c"
-                  value={formData.user_id_c}
-                  onChange={(e) => handleChange("user_id_c", e.target.value)}
+                  id="users_c"
+                  value={formData.users_c}
+onChange={(e) => handleChange("users_c", e.target.value)}
                   disabled={loadingUsers}
                   required
                 >

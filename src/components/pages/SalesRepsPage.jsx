@@ -61,7 +61,7 @@ const SalesRepsPage = () => {
   };
 
   const filteredSalesReps = salesReps.filter(rep =>
-    rep.user?.Name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+rep.user?.Name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     rep.territory_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     rep.region_c?.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -135,7 +135,7 @@ const SalesRepsPage = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                      {salesRep.user?.Name?.charAt(0) || 'S'}
+{salesRep.user?.Name?.charAt(0) || 'S'}
                     </div>
                     <div>
                       <h3 className="font-semibold text-slate-900">

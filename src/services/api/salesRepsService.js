@@ -26,9 +26,9 @@ const salesRepsService = {
     await delay(300);
     
     // Add user lookup data to each sales rep
-    return salesRepsData.map(rep => ({
+return salesRepsData.map(rep => ({
       ...rep,
-      user: mockUsers.find(user => user.Id === rep.user_id_c) || null
+      user: mockUsers.find(user => user.Id === rep.users_c) || null
     }));
   },
 
@@ -40,10 +40,10 @@ const salesRepsService = {
       throw new Error('Sales representative not found');
     }
 
-    // Add user lookup data
+// Add user lookup data
     return {
       ...salesRep,
-      user: mockUsers.find(user => user.Id === salesRep.user_id_c) || null
+      user: mockUsers.find(user => user.Id === salesRep.users_c) || null
     };
   },
 
@@ -51,7 +51,7 @@ const salesRepsService = {
     await delay(400);
     
     // Validate required fields
-    if (!salesRepData.user_id_c) {
+if (!salesRepData.users_c) {
       throw new Error('User selection is required');
     }
     if (!salesRepData.territory_c) {
@@ -62,8 +62,8 @@ const salesRepsService = {
     }
 
     // Check if user is already assigned as sales rep
-    const existingAssignment = salesRepsData.find(rep => 
-      rep.user_id_c === salesRepData.user_id_c && rep.is_active_c
+const existingAssignment = salesRepsData.find(rep => 
+      rep.users_c === salesRepData.users_c && rep.is_active_c
     );
     if (existingAssignment) {
       throw new Error('This user is already assigned as an active sales representative');
@@ -71,7 +71,7 @@ const salesRepsService = {
 
     const newSalesRep = {
       Id: Math.max(...salesRepsData.map(rep => rep.Id), 0) + 1,
-      user_id_c: salesRepData.user_id_c,
+users_c: salesRepData.users_c,
       territory_c: salesRepData.territory_c,
       region_c: salesRepData.region_c,
       target_amount_c: salesRepData.target_amount_c || 0,
@@ -86,8 +86,8 @@ const salesRepsService = {
 
     // Return with user lookup data
     return {
-      ...newSalesRep,
-      user: mockUsers.find(user => user.Id === newSalesRep.user_id_c) || null
+...newSalesRep,
+      user: mockUsers.find(user => user.Id === newSalesRep.users_c) || null
     };
   },
 
@@ -100,7 +100,7 @@ const salesRepsService = {
     }
 
     // Validate required fields
-    if (updates.user_id_c && !updates.user_id_c) {
+if (updates.users_c && !updates.users_c) {
       throw new Error('User selection is required');
     }
     if (updates.territory_c !== undefined && !updates.territory_c) {
@@ -111,10 +111,10 @@ const salesRepsService = {
     }
 
     // Check for duplicate user assignment (excluding current record)
-    if (updates.user_id_c) {
+if (updates.users_c) {
       const existingAssignment = salesRepsData.find(rep => 
         rep.Id !== parseInt(id) && 
-        rep.user_id_c === updates.user_id_c && 
+        rep.users_c === updates.users_c && 
         rep.is_active_c
       );
       if (existingAssignment) {
@@ -131,9 +131,9 @@ const salesRepsService = {
     salesRepsData[index] = updatedSalesRep;
 
     // Return with user lookup data
-    return {
+return {
       ...updatedSalesRep,
-      user: mockUsers.find(user => user.Id === updatedSalesRep.user_id_c) || null
+      user: mockUsers.find(user => user.Id === updatedSalesRep.users_c) || null
     };
   },
 
